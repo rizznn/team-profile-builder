@@ -1,0 +1,26 @@
+{
+  "name": "team-profile-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^27.0.6"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rizznn/team-profile-builder.git"
+  },
+  "author": "rizzel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rizznn/team-profile-builder/issues"
+  },
+  "homepage": "https://github.com/rizznn/team-profile-builder#readme"
+}
