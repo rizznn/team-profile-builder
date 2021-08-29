@@ -1,37 +1,55 @@
 const inquirer = require('inquirer');
-
-// const fs = require('fs');
-// const generateTeamProfilePage = require('./src/page-template')
-
-// const pageHTML = generateTeamProfilePage(generateTeamProfile);
-
-
-
-// fs.writeFile('./dist/index.html', pageHTML, err => {
-//     if (err) throw err;
-  
-//     console.log('Team Portfolio complete! Check out index.html to see the output!');
-// });
+const generateTeamProfilePage = require('./src/page-template')
+const { writeFile, copyFile } = require('./utils/generate-site.js');
 
 const promptUser = () => {
     return inquirer.prompt([
       {
         type: 'input',
-        name: 'name',
-        message: 'What is your name?',
-        validate: nameInput => {
-            if (nameInput) {
-              return true;
-            } else {
-              console.log('Please enter your name!');
-              return false;
+        name: 'managerName',
+        message: "What is the Manager's name?",
+        validate: answer => {
+            if (answer !== "") {
+                return true;
             }
-        }    
+            return "Please enter the Manager's name.";
+        }
       },
       {
         type: 'input',
-        name: 'github',
-        message: 'Enter your GitHub Username'
+        name: 'managerId',
+        message: "What is the Manager's ID?",
+        validate: answer => {
+            if (answer !== "") {
+                return true;
+            }
+            return "Please enter a valid Manager's ID.";
+        }
+      },
+      {
+        type: 'input',
+        name: 'managerEmail',
+        message: "What's the manager's email?",
+        validate: answer => {
+            if (answer !== "") {
+                return true;
+            }
+            return "Please enter a valid email address";
+        }
+      },
+      {
+        type: "input",
+        name: "managerOfficeNumber",
+        message: "What's the manager's office number?",
+        validate: answer => {
+            const pass = answer.match(
+                /^[1-9]\d*$/
+            );
+            if (pass) {
+                return true;
+            }
+            return "Please enter a valid phone number.";
+        }
       },
       {
         type: 'confirm',
@@ -115,16 +133,19 @@ promptUser()
     // call the function
     .then(promptProfile)
     .then(teamProfileData => {
-        console.log(teamProfileData)
+        return generateTeamProfilePage(teamProfileData)
+    .then(pageHTML => {
+      return writeFile(pageHTML);
     })
-    // answers to portfolio
-//   .then(portfolioAnswers => console.log(portfolioAnswers))
-//     // to add another profile
-//   .then(profileData => {
-//     teamProfileData.portfolio.push(profileData);
-//     if (profileData.confirmAddProject) {
-//         return promptProfile(teamProfileData);
-//       } else {
-//         return teamProfileData;
-//       }
-//   });
+    .then(writeFileResponse => {
+      console.log(writeFileResponse);
+      return copyFile();
+    })
+    .then(copyFileResponse => {
+      console.log(copyFileResponse);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+ 
+  })
