@@ -1,36 +1,33 @@
+const generateTeamProfile = team => {
 
-// create the about section
-const generateManagerProfile = teamData.manager.map(function(manager) {
-    return `
-        <div class="col">
-            <div class="card team-card manager-card">
-                <div class="card-header team-header text-center">
-                    <h2 class="card-title">${manager.getName()}</h2>
-                    <h4 class="card-title">Title: ${manager.getRole()}</h4>                    
-                </div>
-                <div class="card-body team-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">ID: ${manager.getId()}</li>
-                        <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
-                        <li class="list-group-item">Office number: <a href="tel:${manager.getOfficeNumber()}">${manager.getOfficeNumber()}</a></li>                            
-                    </ul>
+    // create the about section
+    const generateManagerProfile = manager => {
+        return `
+            <div class="col">
+                <div class="card team-card manager-card">
+                    <div class="card-header team-header text-center">
+                        <h2 class="card-title">${manager.getName()}</h2>
+                        <h4 class="card-title">Title: ${manager.getRole()}</h4>                    
+                    </div>
+                    <div class="card-body team-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: ${manager.getId()}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
+                            <li class="list-group-item">Office number: <a href="tel:${manager.getOfficeNumber()}">${manager.getOfficeNumber()}</a></li>                            
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
         `;
-    });
+    };
+        
     
-
-// engineer profile
-const generateEngineerProfile = engineer => {
-    // if it doesn't exist, return an empty string
-    if (!engineer) {
-        return '';
-    }
-    return `
-    ${engineer
-    .filter(({engineerProfile}) => engineerProfile)
-    .map(({ getName, getRole, getId, getEmail, getGitHub }) => {
+    // engineer profile
+    const generateEngineerProfile = engineer => {
+        // if it doesn't exist, return an empty string
+        if (!engineer) {
+            return '';
+        }
         return `
         <div class="col">
             <div class="card team-card engineer-card">
@@ -47,59 +44,35 @@ const generateEngineerProfile = engineer => {
                 </div>
             </div>
         </div>
-        `;
-    })
-    .join('')}
-
-    ${engineer
-        .filter(({engineerProfile}) => !engineerProfile)
-        .map(({ getName, getRole, getId, getEmail, getGitHub }) => {
-            return `
-            <div class="col">
-                <div class="card team-card engineer-card">
-                    <div class="card-header team-header text-center">
-                        <h2 class="card-title">${engineer.getName()}</h2>
-                        <h4 class="card-title">Title: ${engineer.getRole()}</h4>                    
-                    </div>
-                    <div class="card-body team-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">ID: ${engineer.getId()}</li>
-                            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
-                            <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGitHub()}" target="_blank" rel="noopener noreferrer">${engineer.getGitHub()}</a></li>                            
-                        </ul>
-                    </div>
+        `;  
+    };
+    
+    // intern profile
+    const generateInternProfile = intern => {
+        // if it doesn't exist, return an empty string
+        if (!intern) {
+            return '';
+        }
+        return `
+        <div class="col">
+            <div class="card team-card intern-card">
+                <div class="card-header team-header text-center">
+                    <h2 class="card-title">${intern.getName()}</h2>
+                    <h4 class="card-title">Title: ${intern.getRole()}</h4>                    
+                </div>
+                <div class="card-body team-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">ID: ${intern.getId()}</li>
+                        <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
+                        <li class="list-group-item">School: ${intern.getSchool()}</li>                            
+                    </ul>
                 </div>
             </div>
-            `;
-    })
-    .join('')}
-    `;
-};
-
-// intern profile
-const generateInternProfile = intern => {
-    // if it doesn't exist, return an empty string
-    if (!intern) {
-        return '';
-    }
-    return `
-    <div class="col">
-        <div class="card team-card intern-card">
-            <div class="card-header team-header text-center">
-                <h2 class="card-title">${intern.getName()}</h2>
-                <h4 class="card-title">Title: ${intern.getRole()}</h4>                    
-            </div>
-            <div class="card-body team-body">
-                <ul class="list-group">
-                    <li class="list-group-item">ID: ${intern.getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
-                    <li class="list-group-item">School: ${intern.getSchool()}</li>                            
-                </ul>
-            </div>
         </div>
-    </div>
-    `;
+        `;
+    }
 }
+
 
 module.exports = profileTemplateData => {
     const { manager, engineer, intern } = profileTemplateData;
@@ -122,7 +95,7 @@ module.exports = profileTemplateData => {
         </div>
         <div class="card-body vh-100">
             <div class="row row-cols-md-3 g-4">
-                ${generateTeamProfilePage(profileTemplateData)}
+                ${generateTeamProfile(profileTemplateData)}
             </div>
         </div>
     </body>

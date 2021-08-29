@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const generateTeamProfilePage = require('./src/page-template')
+const generateTeamProfile = require('./src/page-template')
 const { writeFile, copyFile } = require('./utils/generate-site.js');
 
 const promptUser = () => {
@@ -133,7 +133,8 @@ promptUser()
     // call the function
     .then(promptProfile)
     .then(teamProfileData => {
-        return generateTeamProfilePage(teamProfileData)
+        return generateTeamProfile(teamProfileData)
+    })
     .then(pageHTML => {
       return writeFile(pageHTML);
     })
@@ -147,5 +148,4 @@ promptUser()
     .catch(err => {
       console.log(err);
     });
- 
-  })
+
