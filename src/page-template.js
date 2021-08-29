@@ -75,7 +75,6 @@ const generateTeamProfile = team => {
 
 
 module.exports = profileTemplateData => {
-    const { manager, engineer, intern } = profileTemplateData;
     return `
     <!DOCTYPE html>
     <html lang="en">
