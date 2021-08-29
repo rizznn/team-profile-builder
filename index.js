@@ -7,8 +7,10 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-function promptUser() {
-  this.manager;
+function promptUser(profileData) {
+  if (!profileData) {
+    profileData = [];
+  }
   return inquirer.prompt([
     {
       type: 'input',
@@ -62,8 +64,8 @@ function promptUser() {
     }
   ])
   .then(({managerName, managerId, managerEmail, managerOfficeNumber}) => {
-    this.manager = new Manager(managerName, managerId, managerEmail, managerOfficeNumber);
-    // teamProfileData.push(manager);
+    const manager = new Manager(managerName, managerId, managerEmail, managerOfficeNumber);
+    profileData.push(manager);
   });
 };
   
@@ -128,10 +130,13 @@ const promptProfile = () => {
         name: "engineerEmail",
         message: "What's the Engineer's email?",
         validate: answer => {
-            if (answer !== "") {
-                return true;
-            }
-            return "Please enter a valid email address.";
+          const pass = answer.match(
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          );
+          if (pass) {
+              return true;
+          }
+          return "Please enter a valid email address.";
         }
       },
       {
@@ -153,7 +158,7 @@ const promptProfile = () => {
       }
     ]).then(answers => {
       const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
-      profileData.push(answers);
+      profileData.push(engineer);
       if (answers.confirmAddMember) {
         return promptProfile(profileData);
       } else {
@@ -164,7 +169,10 @@ const promptProfile = () => {
   }
 
   // Add an Intern when user selected Intern
-  function addIntern() {
+  function addIntern(profileData) {
+    if (!profileData) {
+      profileData = [];
+    }
     return inquirer.prompt([
       {
         type: "input",
@@ -182,10 +190,13 @@ const promptProfile = () => {
         name: "internId",
         message: "What is the Intern's ID?",
         validate: answer => {
-            if (answer !== "") {
-                return true;
-            }
-            return "Please enter a valid Intern's ID.";
+          const pass = answer.match(
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          );
+          if (pass) {
+              return true;
+          }
+          return "Please enter a valid email address.";
         }
       },
       {
@@ -209,12 +220,22 @@ const promptProfile = () => {
             }
             return "Please enter the Intern's school.";
         }
+      },
+      {
+        type: 'confirm',
+        name: 'confirmAddMember',
+        message: 'Would you like to add another team member?',
+        default: false
       }
 
     ]).then(answers => {
       const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
-      teamProfileData.push(intern);
-      promptProfile();
+      profileData.push(intern);
+      if (answers.confirmAddMember) {
+        return promptProfile(profileData);
+      } else {
+        profileData;
+      }
     });
   }
   
