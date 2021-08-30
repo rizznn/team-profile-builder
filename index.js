@@ -1,16 +1,19 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
 const generateTeamProfile = require('./src/page-template')
-const { writeFile, copyFile } = require('./utils/generate-site.js');
+// const { writeFile, copyFile } = require('./utils/generate-site.js');
 
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-function promptUser(profileData) {
-  if (!profileData) {
-    profileData = [];
-  }
+const profileData = [];
+
+function promptUser() {
+  // if (!profileData) {
+  //   profileData = [];
+  // }
   return inquirer.prompt([
     {
       type: 'input',
@@ -66,6 +69,7 @@ function promptUser(profileData) {
   .then(({managerName, managerId, managerEmail, managerOfficeNumber}) => {
     const manager = new Manager(managerName, managerId, managerEmail, managerOfficeNumber);
     profileData.push(manager);
+    promptProfile();
   });
 };
   
@@ -82,26 +86,17 @@ const promptProfile = () => {
     .then(({ addTeamMembers }) => {
           if (addTeamMembers === 'Engineer') {
             addEngineer();
-          } else {
+          } else if (addTeamMembers === 'Intern') {
             addIntern();
+          } else {
+            generateTeamFile();
           }
       });   
-    //     switch (userChoice.addTeamMembers) {
-    //         case "Engineer":
-    //             addEngineer();
-    //             break;
-    //         case "Intern":
-    //             addIntern();
-    //             break;
-    //     }
-    // });
-  }
 
+    
+  }
   // add an Engineer when user selected Engineer
-  function addEngineer(profileData) {
-    if (!profileData) {
-      profileData = [];
-    }
+  function addEngineer() {
     return inquirer.prompt([
       {
         type: "input",
@@ -160,19 +155,15 @@ const promptProfile = () => {
       const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
       profileData.push(engineer);
       if (answers.confirmAddMember) {
-        return promptProfile(profileData);
+        return promptProfile();
       } else {
-        profileData;
+        generateTeamFile();
       }
-      // promptProfile();
     });
   }
 
   // Add an Intern when user selected Intern
-  function addIntern(profileData) {
-    if (!profileData) {
-      profileData = [];
-    }
+  function addIntern() {
     return inquirer.prompt([
       {
         type: "input",
@@ -228,36 +219,78 @@ const promptProfile = () => {
         default: false
       }
 
-    ]).then(answers => {
-      const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+    ]).then(({ internName, internId, internEmail, internSchool }, answer) => {
+      const intern = new Intern(internName, internId, internEmail, internSchool);
       profileData.push(intern);
-      if (answers.confirmAddMember) {
-        return promptProfile(profileData);
+      if (answer.confirmAddMember) {
+        return promptProfile();
       } else {
-        profileData;
+        generateTeamFile();
       }
     });
   }
-  
-  
 
-promptUser()
-  // call the function
-  .then(promptProfile)
-  .then(teamProfileData => {
-      return generateTeamProfile(teamProfileData)
-  })
-  .then(pageHTML => {
-    return writeFile(pageHTML);
-  })
-  .then(writeFileResponse => {
-    console.log(writeFileResponse);
-    return copyFile();
-  })
-  .then(copyFileResponse => {
-    console.log(copyFileResponse);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+
+function generateTeamFile() {
+  console.log('Team profile created!');
+
+  fs.writeFileSync('./dist/index.html', generateTeamProfile(profileData), err => {
+      console.log(err);
+    });
+  }
+
+  // const writeFile = fileContent => {
+  //   return new Promise((resolve, reject) => {
+  //     fs.writeFile('./dist/index.html', fileContent, err => {
+  //       // if there's an error, reject the Promise and send the error to the Promise's `.catch()` method
+  //       if (err) {
+  //         reject(err);
+  //         // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
+  //         return;
+  //       }
+  
+  //       // if everything went well, resolve the Promise and send the successful data to the `.then()` method
+  //       resolve({
+  //         ok: true,
+  //         message: 'File created!'
+  //       });
+  //     });
+  //   });
+  // };
+
+
+
+  const copyFile = () => {
+    return new Promise((resolve, reject) => {
+        fs.copyFile('./src/style.css', './dist/style.css', err => {
+            if (err) {
+                reject (err);
+                return;
+            }
+            resolve ('Style sheet copied successfully!');
+        });
+    });
+};
+
+
+
+promptUser();
+  // // call the function
+  // .then(promptProfile)
+  // .then(profileData => {
+  //     return generateTeamProfile(profileData)
+  // })
+  // .then(pageHTML => {
+  //   return writeFile(pageHTML);
+  // })
+  // .then(writeFileResponse => {
+  //   console.log(writeFileResponse);
+  //   return copyFile();
+  // })
+  // .then(copyFileResponse => {
+  //   console.log(copyFileResponse);
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 

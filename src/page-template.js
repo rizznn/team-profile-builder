@@ -71,8 +71,27 @@ const generateTeamProfile = team => {
         </div>
         `;
     }
-}
 
+
+    const html = [];
+
+    html.push(team
+        .filter(employee => employee.getRole() === 'Manager')
+        .map(manager => generateManagerProfile(manager))
+    );
+    html.push(team
+        .filter(employee => employee.getRole() === 'Engineer')
+        .map(engineer => generateEngineerProfile(engineer))
+        .join("")
+    );
+    html.push(team
+        .filter(employee => employee.getRole() === 'Intern')
+        .map(intern => generateInternProfile(intern))
+        .join("")
+    );
+
+    return html.join("");
+};
 
 module.exports = profileTemplateData => {
     return `
@@ -101,34 +120,3 @@ module.exports = profileTemplateData => {
     </html>
     `
 };
-
-
-
-// const generateTeamProfilePage = (generateTeamProfile) => {
-
-//     return `
-//     <!DOCTYPE html>
-//     <html lang="en">
-//     <head>
-//         <meta charset="UTF-8">
-//         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-//         <title>My Team</title>
-//     </head>
-//     <body>
-//         <div class="card-header jumbotron-header">
-//             <header class="jumbotron text-center">
-//                 <h1 class="display-4 ">My Team</h1>
-//                 <p class="lead"></p>
-//             </header>
-//         </div>
-//         <div class="card-body vh-100">
-//             <div class="row row-cols-md-3 g-4">
-//                 ${generateTeamProfile}
-//             </div>
-//         </div>
-//     </body>
-//     </html>
-//     `
-// }
