@@ -25,24 +25,12 @@ header {
     background-color: #00333D;
 }
 
-.manager-card {
-    background-color: #00333D;
-}
-
 .engineer-header {
     background-color: #6A040F;
 }
 
-.engineer-card {
-    background-color: #FFEBEB;
-}
-
 .intern-header {
-    background-color: #1b4332;
-}
-
-.intern-card {
-    background-color: #74c69d;
+    background-color: #CA6702;
 }
 
 .team-header {
