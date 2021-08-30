@@ -1,0 +1,50 @@
+.team-deck {
+    flex-wrap: wrap;
+}
+
+.team-card {
+    margin: 20px;
+    padding: 20px;
+    max-width: 300px;
+    width: 100%;
+    color: white;
+    display: flex;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    border: none; 
+}
+
+header {
+    color: #fff;
+}
+
+.jumbotron-header {
+    background-color: #1d3557;
+}
+
+.manager-header {
+    background-color: #00333D;
+}
+
+.manager-card {
+    background-color: #00333D;
+}
+
+.engineer-header {
+    background-color: #6A040F;
+}
+
+.engineer-card {
+    background-color: #FFEBEB;
+}
+
+.intern-header {
+    background-color: #1b4332;
+}
+
+.intern-card {
+    background-color: #74c69d;
+}
+
+.team-header {
+    color: #fff;
+}

@@ -5,7 +5,7 @@ const generateTeamProfile = team => {
         return `
             <div class="col">
                 <div class="card team-card manager-card">
-                    <div class="card-header team-header text-center">
+                    <div class="card-header team-header manager-header text-center">
                         <h2 class="card-title">${manager.getName()}</h2>
                         <h4 class="card-title">Title: ${manager.getRole()}</h4>                    
                     </div>
@@ -31,7 +31,7 @@ const generateTeamProfile = team => {
         return `
         <div class="col">
             <div class="card team-card engineer-card">
-                <div class="card-header team-header text-center">
+                <div class="card-header team-header engineer-header text-center">
                     <h2 class="card-title">${engineer.getName()}</h2>
                     <h4 class="card-title">Title: ${engineer.getRole()}</h4>                    
                 </div>
@@ -39,7 +39,7 @@ const generateTeamProfile = team => {
                     <ul class="list-group">
                         <li class="list-group-item">ID: ${engineer.getId()}</li>
                         <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
-                        <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGitHub()}" target="_blank" rel="noopener noreferrer">${engineer.getGitHub()}</a></li>                            
+                        <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGithub()}" target="_blank" rel="noopener noreferrer">${engineer.getGithub()}</a></li>                            
                     </ul>
                 </div>
             </div>
@@ -56,7 +56,7 @@ const generateTeamProfile = team => {
         return `
         <div class="col">
             <div class="card team-card intern-card">
-                <div class="card-header team-header text-center">
+                <div class="card-header team-header intern-header text-center">
                     <h2 class="card-title">${intern.getName()}</h2>
                     <h4 class="card-title">Title: ${intern.getRole()}</h4>                    
                 </div>
@@ -102,6 +102,7 @@ module.exports = profileTemplateData => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
         <title>My Team</title>
     </head>
     <body>

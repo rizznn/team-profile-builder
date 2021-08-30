@@ -179,13 +179,10 @@ const promptProfile = () => {
         name: "internId",
         message: "What is the Intern's ID?",
         validate: answer => {
-          const pass = answer.match(
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-          );
-          if (pass) {
+          if (answer !== "") {
               return true;
           }
-          return "Please enter a valid email address.";
+          return "Please enter a valid email address";
         }
       },
       {
@@ -193,10 +190,13 @@ const promptProfile = () => {
         name: "internEmail",
         message: "What is the Intern's email?",
         validate: answer => {
-            if (answer !== "") {
-                return true;
-            }
-            return "Please enter a valid email address";
+          const pass = answer.match(
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          );
+          if (pass) {
+              return true;
+          }
+          return "Please enter a valid email address.";
         }
       },
       {
