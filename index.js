@@ -91,10 +91,8 @@ const promptProfile = () => {
           } else {
             generateTeamFile();
           }
-      });   
-
-    
-  }
+      });    
+}
   // add an Engineer when user selected Engineer
   function addEngineer() {
     return inquirer.prompt([
@@ -155,7 +153,7 @@ const promptProfile = () => {
       const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
       profileData.push(engineer);
       if (answers.confirmAddMember) {
-        return promptProfile();
+        return promptProfile(profileData);
       } else {
         generateTeamFile();
       }
@@ -219,11 +217,11 @@ const promptProfile = () => {
         default: false
       }
 
-    ]).then(({ internName, internId, internEmail, internSchool }, answer) => {
-      const intern = new Intern(internName, internId, internEmail, internSchool);
+    ]).then(answers => {
+      const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
       profileData.push(intern);
-      if (answer.confirmAddMember) {
-        return promptProfile();
+      if (answers.confirmAddMember) {
+        return promptProfile(profileData);
       } else {
         generateTeamFile();
       }
